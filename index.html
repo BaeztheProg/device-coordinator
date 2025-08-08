@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Coordinator Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .flow-arrow {
+            color: #A2FF00;
+        }
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow: 0 0 4px #00FFFF;
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+                opacity: 0.8;
+            }
+        }
+        .flicker-text {
+            animation: flicker 2s infinite alternate;
+        }
+        .card-glow {
+            box-shadow: 0 0 15px 5px #9B59B6;
+            border: 2px solid #9B59B6;
+        }
+    </style>
+</head>
+<body class="bg-[#1C1C1C] text-[#E0E0E0]">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black text-[#A2FF00] uppercase tracking-wider flicker-text">Classroom Shutdown Protocol</h1>
+            <p class="text-lg text-[#00FFFF] mt-2">The Official Device Decommissioning Sequence</p>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <div class="md:col-span-2 lg:col-span-3 bg-[#2D2D2D] rounded-lg card-glow p-6 text-center">
+                <h2 class="text-3xl font-bold text-[#A2FF00] mb-4">Initializing Device Coordinator Protocol</h2>
+                <p class="text-base text-[#E0E0E0] max-w-3xl mx-auto mb-6">
+                    Designated operator for this cycle is selected. Your mission: maintain system integrity by securing all class laptops. This critical role is acknowledged with priority access to the central hub.
+                </p>
+                <div class="flex justify-center items-center space-x-8">
+                    <div class="text-center">
+                        <p class="text-6xl">🤖</p>
+                        <p class="font-bold text-xl text-[#A2FF00]">The Operator</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-6xl">👑</p>
+                        <p class="font-bold text-xl text-[#00FFFF]">The Central Hub</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-2 lg:col-span-3 bg-[#2D2D2D] rounded-lg card-glow p-6">
+                <h2 class="text-3xl font-bold text-center text-[#A2FF00] mb-2">System Decommissioning Sequence</h2>
+                <p class="text-base text-[#E0E0E0] text-center max-w-3xl mx-auto mb-8">
+                    Execute this four-phase sequence to ensure a flawless system shutdown. The Operator will manage the decommissioning from the designated station.
+                </p>
+                <div class="flex flex-col md:flex-row justify-center items-center md:items-stretch space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="flex-1 bg-gray-900 border-l-4 border-[#FF00FF] rounded-r-lg p-4 text-center flex flex-col justify-center">
+                        <p class="text-5xl mb-2 text-[#FF00FF]">1</p>
+                        <h3 class="font-bold text-lg">Input Devices</h3>
+                        <p class="text-sm text-[#E0E0E0]">All terminals are brought to the Operator for processing.</p>
+                    </div>
+                    <div class="text-4xl font-black flow-arrow transform rotate-90 md:rotate-0">→</div>
+                    <div class="flex-1 bg-gray-900 border-l-4 border-[#A2FF00] rounded-r-lg p-4 text-center flex flex-col justify-center">
+                        <p class="text-5xl mb-2 text-[#A2FF00]">2</p>
+                        <h3 class="font-bold text-lg">Device Hand-off</h3>
+                        <p class="text-sm text-[#E0E0E0]">Operator receives each device for logging.</p>
+                    </div>
+                    <div class="text-4xl font-black flow-arrow transform rotate-90 md:rotate-0">→</div>
+                    <div class="flex-1 bg-gray-900 border-l-4 border-[#00FFFF] rounded-r-lg p-4 text-center flex flex-col justify-center">
+                        <p class="text-5xl mb-2 text-[#00FFFF]">3</p>
+                        <h3 class="font-bold text-lg">Storage & Organization</h3>
+                        <p class="text-sm text-[#E0E0E0]">Devices are slotted into the containment matrix.</p>
+                    </div>
+                    <div class="text-4xl font-black flow-arrow transform rotate-90 md:rotate-0">→</div>
+                    <div class="flex-1 bg-gray-900 border-l-4 border-[#FF00FF] rounded-r-lg p-4 text-center flex flex-col justify-center">
+                        <p class="text-5xl mb-2 text-[#FF00FF]">4</p>
+                        <h3 class="font-bold text-lg">Secure Containment</h3>
+                        <p class="text-sm text-[#E0E0E0]">The matrix is sealed and locked by the Operator.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-2 lg:col-span-3 bg-[#2D2D2D] rounded-lg card-glow p-6 text-center">
+                <h2 class="text-3xl font-bold text-[#A2FF00] mb-4">Daily Inspiration ✨</h2>
+                <p class="text-base text-[#E0E0E0] max-w-3xl mx-auto mb-6">
+                    Click the button below to retrieve a motivational subroutine for today's Operator!
+                </p>
+                <button id="generateMottoBtn" class="bg-[#FF00FF] hover:bg-[#FF00FF] text-[#E0E0E0] font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105 hover:bg-[#FF00FF] hover:text-[#A2FF00]">
+                    ✨ ACTIVATE SUBROUTINE ✨
+                </button>
+                <div id="mottoDisplay" class="mt-8 text-xl font-bold text-[#00FFFF] min-h-[2rem]"></div>
+            </div>
+
+        </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-[#A2FF00] font-bold text-xl">Thank you, Operator. Protocol complete.</p>
+        </footer>
+
+    </div>
+    <script>
+        window.onload = function() {
+            const generateMottoBtn = document.getElementById('generateMottoBtn');
+            const mottoDisplay = document.getElementById('mottoDisplay');
+            const apiKey = "";
+
+            if (generateMottoBtn) {
+                generateMottoBtn.addEventListener('click', async () => {
+                    mottoDisplay.textContent = 'Generating subroutine...';
+                    generateMottoBtn.disabled = true;
+
+                    const prompt = "Generate a single, short, positive and encouraging motto for a student who is a 'Device Coordinator' in a classroom, using cyberpunk and futuristic terminology.";
+
+                    const payload = {
+                        contents: [{
+                            parts: [{
+                                text: prompt
+                            }]
+                        }],
+                    };
+
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                    let retryCount = 0;
+                    const maxRetries = 5;
+                    const baseDelay = 1000;
+
+                    async function retryFetch() {
+                        try {
+                            const response = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(payload)
+                            });
+
+                            if (!response.ok) {
+                                if (response.status === 429 && retryCount < maxRetries) {
+                                    const delay = baseDelay * Math.pow(2, retryCount);
+                                    retryCount++;
+                                    await new Promise(resolve => setTimeout(resolve, delay));
+                                    return retryFetch();
+                                }
+                                throw new Error(`API call failed with status: ${response.status}`);
+                            }
+
+                            const result = await response.json();
+                            const mottoText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                            if (mottoText) {
+                                mottoDisplay.textContent = mottoText;
+                            } else {
+                                mottoDisplay.textContent = "Subroutine failed. Please re-engage.";
+                            }
+                        } catch (error) {
+                            console.error('Error fetching data:', error);
+                            mottoDisplay.textContent = "Subroutine error. Please re-engage.";
+                        } finally {
+                            generateMottoBtn.disabled = false;
+                        }
+                    }
+
+                    retryFetch();
+                });
+            }
+        };
+    </script>
+</body>
+</html>
