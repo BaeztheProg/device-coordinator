@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE Course Syllabus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .slideshow-container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #e5e7eb;
+        }
+        .slide {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            min-height: 600px;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+        .nav-button {
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .nav-button:hover {
+            background-color: #2563eb;
+        }
+        .nav-button:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .page-indicator {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+        }
+        .dot {
+            height: 0.75rem;
+            width: 0.75rem;
+            background-color: #d1d5db;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+        .dot.active {
+            background-color: #3b82f6;
+        }
+        .grade-bar-container {
+            width: 100%;
+            height: 25px;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+        .grade-bar {
+            height: 100%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+<div class="slideshow-container relative">
+
+    <!-- Slide 1: Course Intro -->
+    <div id="slide-1" class="slide active">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-4">Course Syllabus</h1>
+        <h2 class="text-xl sm:text-2xl font-bold mb-2">Computer Science Essentials</h2>
+        <p class="text-lg text-gray-700">
+            Welcome to Computer Science Essentials! This introductory course will expose you to a diverse set of computational thinking concepts and tools. You'll learn visual, block-based programming before transitioning to text-based languages like Python to create apps and develop websites.
+        </p>
+    </div>
+
+    <!-- Slide 2: Norms & Behavior -->
+    <div id="slide-2" class="slide">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-4">Behavior Expectations</h2>
+        <div class="flex flex-col items-start gap-4 text-left w-full max-w-lg">
+            <div class="flex items-center gap-4">
+                <span class="text-2xl font-bold text-red-500">F</span>
+                <span class="text-lg text-gray-700">Find Enjoyment</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-2xl font-bold text-red-500">I</span>
+                <span class="text-lg text-gray-700">Include Others</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-2xl font-bold text-red-500">R</span>
+                <span class="text-lg text-gray-700">Responsible Behaviors</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-2xl font-bold text-red-500">E</span>
+                <span class="text-lg text-gray-700">Ethical Actions</span>
+            </div>
+        </div>
+        <p class="mt-8 text-lg text-gray-700 text-center">
+            Remember to be a respectful and productive individual in class. The use of cell phones, unauthorized equipment, and food/gum near electronics is prohibited.
+        </p>
+    </div>
+
+    <!-- Slide 3: Academic Honesty -->
+    <div id="slide-3" class="slide">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-4">Academic Honesty</h2>
+        <p class="text-lg text-gray-700 text-center mb-4">
+            Honest behavior is expected. Violations may include:
+        </p>
+        <ul class="list-disc list-inside text-left text-lg text-gray-700 space-y-2 w-full max-w-md">
+            <li>Cheating on tests or quizzes.</li>
+            <li>Plagiarism, including misuse of published or electronic materials.</li>
+            <li>Unauthorized collaboration with others.</li>
+            <li>Falsification of data or citations.</li>
+            <li>Unauthorized use of Generative AI.</li>
+        </ul>
+        <p class="mt-6 text-lg text-gray-700 text-center">
+            The consequences for violations can include loss of credit for the assignment, loss of Good Standing privileges, and referral to the administration.
+        </p>
+    </div>
+
+    <!-- Slide 4: Grading Criteria -->
+    <div id="slide-4" class="slide">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-4">Grading Criteria</h2>
+        <div class="w-full max-w-lg">
+            <div class="mb-4">
+                <p class="text-lg font-bold">Participation/Classwork/Homework: 45%</p>
+                <div class="grade-bar-container">
+                    <div class="grade-bar bg-blue-500" style="width: 45%;">45%</div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <p class="text-lg font-bold">Projects: 25%</p>
+                <div class="grade-bar-container">
+                    <div class="grade-bar bg-green-500" style="width: 25%;">25%</div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <p class="text-lg font-bold">Assessments (Tests & Quizzes): 20%</p>
+                <div class="grade-bar-container">
+                    <div class="grade-bar bg-yellow-500" style="width: 20%;">20%</div>
+                </div>
+            </div>
+            <div>
+                <p class="text-lg font-bold">Online Portfolio: 10%</p>
+                <div class="grade-bar-container">
+                    <div class="grade-bar bg-purple-500" style="width: 10%;">10%</div>
+                </div>
+            </div>
+        </div>
+        <p class="mt-8 text-lg text-gray-700 text-center">
+            You'll have multiple attempts to demonstrate mastery of content. Late work may be accepted for some point recovery within two weeks.
+        </p>
+    </div>
+    
+    <!-- Slide 5: Grading Scale -->
+    <div id="slide-5" class="slide">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-4">Grading Scale</h2>
+        <div class="w-full max-w-lg overflow-x-auto">
+            <table class="w-full text-left text-lg text-gray-700 rounded-lg overflow-hidden">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="p-4">Grade</th>
+                        <th class="p-4">Percentage Range</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="bg-white">
+                        <td class="p-4">A+</td>
+                        <td class="p-4">96.50% - 100%</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="p-4">A</td>
+                        <td class="p-4">92.50% - 96.49%</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="p-4">A-</td>
+                        <td class="p-4">89.50% - 92.49%</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="p-4">B+</td>
+                        <td class="p-4">86.50% - 89.49%</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="p-4">B</td>
+                        <td class="p-4">82.50% - 86.49%</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="p-4">B-</td>
+                        <td class="p-4">79.50% - 82.49%</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="p-4">C+</td>
+                        <td class="p-4">76.50% - 79.49%</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="p-4">C</td>
+                        <td class="p-4">72.50% - 76.49%</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="p-4">C-</td>
+                        <td class="p-4">69.50% - 72.49%</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="p-4">D+</td>
+                        <td class="p-4">66.50% - 69.49%</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="p-4">D</td>
+                        <td class="p-4">62.50% - 66.49%</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="p-4">D-</td>
+                        <td class="p-4">59.50% - 62.49%</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="p-4">F</td>
+                        <td class="p-4">50.00% - 59.49%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Navigation Buttons -->
+    <div class="flex justify-between items-center w-full mt-8">
+        <button id="prev-btn" class="nav-button">Previous</button>
+        <div class="page-indicator">
+            <span id="dot-1" class="dot active"></span>
+            <span id="dot-2" class="dot"></span>
+            <span id="dot-3" class="dot"></span>
+            <span id="dot-4" class="dot"></span>
+            <span id="dot-5" class="dot"></span>
+        </div>
+        <button id="next-btn" class="nav-button">Next</button>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.remove('active');
+                if (i === index) {
+                    dot.classList.add('active');
+                }
+            });
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === totalSlides - 1;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        // Initialize the first slide and button states
+        showSlide(currentSlide);
+    });
+</script>
+
+</body>
+</html>
