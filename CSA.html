@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP Computer Science A - Interactive Syllabus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Neutrals -->
+    <!-- Application Structure Plan: A single-page application with a fixed top navigation bar for quick access to key sections: Grading, AP Prep, and Policies. This thematic structure is more user-friendly than a linear document, allowing students or parents to jump directly to the information they need. The Grading section uses an interactive donut chart for visual appeal and progressive disclosure of details. The Policies section uses a tabbed interface to organize dense text content cleanly, preventing information overload. This design prioritizes scannability and user engagement. -->
+    <!-- Visualization & Content Choices: 
+        1. Grading Weights -> Goal: Inform/Compare -> Viz: Interactive Donut Chart -> Interaction: Clicking a chart segment reveals detailed text about that grading category. -> Justification: A donut chart is ideal for showing parts-of-a-whole data. The click interaction makes exploring the information more engaging and keeps the initial view uncluttered. -> Library: Chart.js (Canvas).
+        2. AP Prep Topics -> Goal: Organize/Show Progression -> Viz: Horizontal Flow Diagram -> Interaction: None, static visual. -> Justification: A simple, clean visual flow diagram built with HTML/CSS is more intuitive for understanding the course's structure over the year than a standard bulleted list. -> Library/Method: HTML/Tailwind CSS.
+        3. Course Policies -> Goal: Organize/Inform -> Viz: Tabbed Content Area -> Interaction: Clicking a tab displays the relevant policy and hides others. -> Justification: Tabs are a standard UI pattern for condensing related but distinct blocks of text, making the information easier to navigate and digest without excessive scrolling. -> Library/Method: Vanilla JavaScript, HTML/Tailwind CSS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+            color: #292524; /* stone-800 */
+        }
+        .nav-link {
+            transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #0d9488; /* teal-600 */
+            border-bottom-color: #0d9488; /* teal-600 */
+        }
+        .tab-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .tab-button.active {
+            background-color: #0d9488; /* teal-600 */
+            color: #ffffff;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-bold text-xl text-stone-800">AP CSA Syllabus</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#grading" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-700">Grading</a>
+                        <a href="#ap-prep" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-700">AP Prep</a>
+                        <a href="#policies" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-700">Policies</a>
+                    </div>
+                </div>
+                 <div class="md:hidden">
+                    <select id="mobile-nav" class="block w-full rounded-md border-stone-300 py-2 pl-3 pr-10 text-base focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm">
+                        <option value="#grading">Grading</option>
+                        <option value="#ap-prep">AP Prep</option>
+                        <option value="#policies">Policies</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+        <section id="grading" class="content-section active">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold text-stone-900">Course Grading Breakdown</h1>
+                <p class="mt-3 max-w-2xl mx-auto text-lg text-stone-600">Your final grade is determined by four key categories. Click on a section of the chart below to see more details about what it includes.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="chart-container">
+                    <canvas id="gradingChart"></canvas>
+                </div>
+                <div id="grading-details" class="bg-white p-6 rounded-lg shadow-sm min-h-[200px] flex items-center justify-center">
+                    <div class="text-center">
+                        <h3 id="details-title" class="text-2xl font-semibold text-stone-800">Assessments</h3>
+                        <p id="details-percentage" class="text-4xl font-bold text-teal-600 my-2">35%</p>
+                        <p id="details-description" class="text-stone-600">This is the largest category, covering your understanding of core concepts through unit tests, quizzes, the midterm, and the final exam.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ap-prep" class="content-section">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold text-stone-900">AP Exam Preparation</h1>
+                <p class="mt-3 max-w-2xl mx-auto text-lg text-stone-600">This course is strategically designed to build the skills and knowledge you need to succeed on the AP Computer Science A exam.</p>
+            </div>
+            
+            <div class="space-y-8">
+                 <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold text-teal-700 mb-2">Core Focus: Java & Problem Solving</h3>
+                    <p class="text-stone-600">The entire course is taught in Java, the official language of the exam. You'll master essential concepts like object-oriented programming (OOP) and spend significant time on practical problem-solving and algorithm development, which are critical skills for the free-response questions on the exam.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-center mb-6 text-stone-800">Course Content Progression</h3>
+                    <div class="relative">
+                        <div class="hidden sm:block absolute left-1/2 -translate-x-1/2 w-0.5 h-full bg-stone-300"></div>
+                        <div class="space-y-12 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-12 sm:gap-y-16">
+                            
+                            <div class="sm:text-right">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-teal-500">
+                                    <h4 class="font-bold">Java Coding Fundamentals</h4>
+                                    <p class="text-sm text-stone-600">Variables, data types, objects, and control structures.</p>
+                                </div>
+                            </div>
+                            <div></div>
+
+                            <div></div>
+                            <div class="sm:text-left">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-r-4 sm:border-r-0 sm:border-l-4 border-teal-500">
+                                    <h4 class="font-bold">Iteration and Classes</h4>
+                                    <p class="text-sm text-stone-600">Writing your own classes, loops, and understanding program logic.</p>
+                                </div>
+                            </div>
+
+                             <div class="sm:text-right">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-teal-500">
+                                    <h4 class="font-bold">Arrays & ArrayLists</h4>
+                                    <p class="text-sm text-stone-600">Managing and manipulating large sets of data.</p>
+                                </div>
+                            </div>
+                            <div></div>
+
+                            <div></div>
+                            <div class="sm:text-left">
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-r-4 sm:border-r-0 sm:border-l-4 border-teal-500">
+                                    <h4 class="font-bold">Inheritance and Recursion</h4>
+                                    <p class="text-sm text-stone-600">Advanced OOP concepts and recursive problem-solving.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="policies" class="content-section">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold text-stone-900">Key Course Policies</h1>
+                <p class="mt-3 max-w-2xl mx-auto text-lg text-stone-600">Please familiarize yourself with these important classroom and school-wide policies.</p>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <div class="mb-4 flex space-x-2 p-1 bg-stone-200 rounded-lg">
+                    <button class="tab-button w-full py-2.5 text-sm font-medium leading-5 rounded-lg active" data-tab="tab1">Late Work & Absences</button>
+                    <button class="tab-button w-full py-2.5 text-sm font-medium leading-5 rounded-lg" data-tab="tab2">F.I.R.E. & Ethics</button>
+                    <button class="tab-button w-full py-2.5 text-sm font-medium leading-5 rounded-lg" data-tab="tab3">AI Usage</button>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div id="tab1" class="tab-content">
+                        <h3 class="text-xl font-semibold mb-3 text-stone-800">Late Work and Absences</h3>
+                        <ul class="space-y-3 text-stone-600">
+                            <li><strong>Late Work:</strong> May be accepted for partial credit at the instructor's discretion. All late submissions must be turned in before the end of the current unit of study.</li>
+                            <li><strong>Missed Quizzes:</strong> There are no make-ups for missed quizzes. The grade will be prorated based on your score on the corresponding unit test.</li>
+                            <li><strong>Missed Tests (Excused Absence):</strong> You are responsible for scheduling a make-up with the teacher. It must be completed within the number of days you were absent.</li>
+                            <li><strong>Missed Tests (Unexcused Absence):</strong> A grade of zero will be recorded with no opportunity for a make-up.</li>
+                        </ul>
+                    </div>
+                    <div id="tab2" class="tab-content hidden">
+                        <h3 class="text-xl font-semibold mb-3 text-stone-800">F.I.R.E. & Ethical Actions</h3>
+                        <p class="mb-3 text-stone-600">Emerald High School's F.I.R.E. motto guides our behavior. The "E" for <strong>Ethical Actions</strong> is critical in this course.</p>
+                        <ul class="space-y-3 text-stone-600">
+                            <li><strong>Lab Use:</strong> Your higher-level access on lab computers is a privilege. Do not alter software, download unauthorized files, attempt to hack, or damage any equipment.</li>
+                            <li><strong>Academic Honesty:</strong> All work submitted must be your own. Plagiarism or any form of cheating will result in a zero on the assignment and will be reported to the administration.</li>
+                        </ul>
+                    </div>
+                    <div id="tab3" class="tab-content hidden">
+                        <h3 class="text-xl font-semibold mb-3 text-stone-800">Ethical Use of Artificial Intelligence</h3>
+                        <p class="text-stone-600">The academic honesty policy explicitly prohibits the use of generative AI tools (like ChatGPT, Copilot, etc.) to complete assignments or write code for you, unless the teacher gives specific, written permission for a particular task. Using AI without authorization is considered a violation of academic integrity and will be treated as such. The goal is to ensure that the work you submit reflects your own learning and problem-solving abilities.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileNav = document.getElementById('mobile-nav');
+            const sections = document.querySelectorAll('.content-section');
+
+            const gradingData = {
+                labels: ['Assessments', 'Participation/Classwork/Homework', 'Projects', 'Online Portfolio'],
+                datasets: [{
+                    label: 'Grading Weight',
+                    data: [35, 30, 25, 10],
+                    backgroundColor: [
+                        '#14b8a6', // teal-500
+                        '#2dd4bf', // teal-400
+                        '#5eead4', // teal-300
+                        '#99f6e4'  // teal-200
+                    ],
+                    borderColor: '#f5f5f4', // stone-100
+                    borderWidth: 4,
+                    hoverOffset: 16
+                }]
+            };
+
+            const gradingDetails = {
+                'Assessments': {
+                    percent: '35%',
+                    description: 'This is the largest category, covering your understanding of core concepts through unit tests, quizzes, the midterm, and the final exam.'
+                },
+                'Participation/Classwork/Homework': {
+                    percent: '30%',
+                    description: 'Daily engagement and consistent effort are essential. This category rewards your active participation in class and completion of practice work.'
+                },
+                'Projects': {
+                    percent: '25%',
+                    description: 'Twice a quarter, you\'ll apply your skills to a larger, hands-on project that demonstrates your ability to build a complete program.'
+                },
+                'Online Portfolio': {
+                    percent: '10%',
+                    description: 'A year-long collection of your work. This is a living document showcasing your progress, graded on completeness and organization.'
+                }
+            };
+            
+            const detailsTitle = document.getElementById('details-title');
+            const detailsPercentage = document.getElementById('details-percentage');
+            const detailsDescription = document.getElementById('details-description');
+
+            const ctx = document.getElementById('gradingChart').getContext('2d');
+            const gradingChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: gradingData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    },
+                    onClick: (event, elements) => {
+                        if (elements.length > 0) {
+                            const i = elements[0].index;
+                            const label = gradingData.labels[i];
+                            const details = gradingDetails[label];
+                            
+                            detailsTitle.textContent = label;
+                            detailsPercentage.textContent = details.percent;
+                            detailsDescription.textContent = details.description;
+                        }
+                    }
+                }
+            });
+
+            function setActiveSection(hash) {
+                sections.forEach(section => {
+                    if ('#' + section.id === hash) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+                
+                if (mobileNav.value !== hash) {
+                    mobileNav.value = hash;
+                }
+            }
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    setActiveSection(targetId);
+                     history.pushState(null, null, targetId);
+                });
+            });
+            
+            mobileNav.addEventListener('change', function(e) {
+                const targetId = this.value;
+                setActiveSection(targetId);
+                history.pushState(null, null, targetId);
+            });
+
+            const tabs = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = document.getElementById(tab.dataset.tab);
+
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    tabContents.forEach(c => c.classList.add('hidden'));
+                    target.classList.remove('hidden');
+                });
+            });
+
+            const initialHash = window.location.hash || '#grading';
+            setActiveSection(initialHash);
+        });
+    </script>
+</body>
+</html>
