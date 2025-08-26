@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Random Spinner</title>
+    <style>
+        /* Reset and basic styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+            color: #374151;
+        }
+        
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            font-weight: 600;
+            text-align: center;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+        }
+        
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+        
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.25rem;
+            border-radius: 2rem;
+            font-weight: 700;
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(to right, #10b981, #3b82f6);
+            color: white;
+        }
+        
+        .btn-gradient:hover {
+            background: linear-gradient(to right, #059669, #2563eb);
+            transform: scale(1.05);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .btn-white {
+            background: white;
+            color: #7c3aed;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .btn-white:hover {
+            background: #f9fafb;
+        }
+        
+        /* Typography */
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            color: #1f2937;
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1f2937;
+            text-align: center;
+        }
+        
+        p {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .text-large {
+            font-size: 1.125rem;
+        }
+        
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-red { color: #dc2626; }
+        .text-gray { color: #6b7280; }
+        .text-gray-dark { color: #374151; }
+        .text-white { color: white; }
+        
+        /* Layout utilities */
+        .hidden { display: none !important; }
+        .block { display: block; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-12 { margin-bottom: 3rem; }
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 0.75rem; }
+        .mr-2 { margin-right: 0.5rem; }
+        
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .px-8 { padding-left: 2rem; padding-right: 2rem; }
+        
+        .max-w-2xl {
+            max-width: 42rem;
+        }
+        
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Upload area */
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover,
+        .upload-area.dragover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        
+        .file-input {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+        }
+        
+        .file-input:focus + .file-label {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+        
+        /* Spinner styles */
+        .spinner-container {
+            perspective: 1000px;
+            margin-bottom: 2rem;
+        }
+        
+        .spinner-wheel {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            position: relative;
+            border: 8px solid #1f2937;
+            margin: 0 auto;
+            transition: transform 0.1s ease-out;
+            background: white;
+        }
+        
+        .spinner-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            overflow: hidden;
+        }
+        
+        .spinner-segment-inner {
+            width: 200%;
+            height: 200%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        
+        .spinner-pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #ef4444;
+            z-index: 10;
+        }
+        
+        .spinning {
+            animation: spin 4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(var(--final-rotation)); }
+        }
+        
+        /* Result display */
+        .result-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            transform: scale(0);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .result-display.show {
+            transform: scale(1);
+        }
+        
+        .result-text {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            font-weight: 900;
+            word-break: break-word;
+        }
+        
+        /* Alert boxes */
+        .error-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .info-box {
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        
+        .icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1rem;
+            color: #9ca3af;
+        }
+        
+        .icon-small {
+            width: 20px;
+            height: 20px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .spinner-wheel {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .result-text {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            .spinner-wheel {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .result-text {
+                font-size: 1.5rem;
+            }
+            
+            .btn-large {
+                font-size: 1rem;
+                padding: 0.75rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1>🎯 CSV Random Spinner</h1>
+            <p class="text-large text-gray max-w-2xl mx-auto">
+                Upload a CSV file with strings and spin the wheel to randomly select one item!
+            </p>
+        </header>
+
+        <!-- Upload Section -->
+        <div class="card">
+            <h2>📁 Upload Your CSV File</h2>
+            
+            <!-- File Upload Area -->
+            <div class="upload-area mb-6" id="uploadArea">
+                <div class="mb-4">
+                    <svg class="icon" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <p class="text-large text-gray-dark mb-2">Drag and drop your CSV file here, or</p>
+                <label for="csvFile" class="btn btn-primary file-label">
+                    Choose File
+                </label>
+                <input type="file" id="csvFile" accept=".csv" class="file-input">
+                <p class="text-gray mt-3">
+                    Supports CSV files with one column of strings (with or without headers)
+                </p>
+            </div>
+
+            <!-- File Info -->
+            <div id="fileInfo" class="hidden info-box">
+                <p class="text-gray-dark">
+                    <strong>File:</strong> <span id="fileName"></span> 
+                    (<span id="fileSize"></span>)
+                </p>
+                <p class="text-gray-dark mt-1">
+                    <strong>Items found:</strong> <span id="itemCount"></span>
+                </p>
+            </div>
+
+            <!-- Error Display -->
+            <div id="errorDisplay" class="hidden error-box">
+                <div class="flex items-center">
+                    <svg class="icon-small text-red mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    </svg>
+                    <p class="text-red" id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spinner Section -->
+        <div id="spinnerSection" class="hidden card">
+            <h2>🎲 Spin the Wheel!</h2>
+            
+            <div class="spinner-container">
+                <div style="position: relative;">
+                    <div class="spinner-pointer"></div>
+                    <div class="spinner-wheel" id="spinnerWheel">
+                        <!-- Segments will be generated dynamically -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button id="spinButton" class="btn btn-large btn-gradient">
+                    🎯 SPIN THE WHEEL
+                </button>
+                <p class="text-gray mt-3">Click to randomly select an item from your CSV!</p>
+            </div>
+        </div>
+
+        <!-- Result Section -->
+        <div id="resultSection" class="hidden">
+            <div class="result-display" id="resultDisplay">
+                <h2>🎉 Winner!</h2>
+                <div class="result-text" id="selectedResult">
+                    Result will appear here
+                </div>
+                <button id="spinAgainButton" class="btn btn-white">
+                    Spin Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class CSVSpinner {
+            constructor() {
+                this.csvData = [];
+                this.isSpinning = false;
+                this.initializeEventListeners();
+            }
+
+            initializeEventListeners() {
+                const fileInput = document.getElementById('csvFile');
+                const uploadArea = document.getElementById('uploadArea');
+                const spinButton = document.getElementById('spinButton');
+                const spinAgainButton = document.getElementById('spinAgainButton');
+
+                // File input change
+                fileInput.addEventListener('change', (e) => this.handleFileSelect(e.target.files[0]));
+
+                // Drag and drop
+                uploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.add('dragover');
+                });
+
+                uploadArea.addEventListener('dragleave', () => {
+                    uploadArea.classList.remove('dragover');
+                });
+
+                uploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.remove('dragover');
+                    const file = e.dataTransfer.files[0];
+                    if (file) this.handleFileSelect(file);
+                });
+
+                // Clicking upload area opens file dialog
+                uploadArea.addEventListener('click', () => {
+                    fileInput.click();
+                });
+
+                // Spin buttons
+                spinButton.addEventListener('click', () => this.spinWheel());
+                spinAgainButton.addEventListener('click', () => this.resetForNewSpin());
+            }
+
+            handleFileSelect(file) {
+                this.hideError();
+                
+                if (!file) return;
+
+                // Validate file type
+                if (!file.type.includes('csv') && !file.name.endsWith('.csv')) {
+                    this.showError('Please select a valid CSV file.');
+                    return;
+                }
+
+                // Validate file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    this.showError('File is too large. Please select a file smaller than 5MB.');
+                    return;
+                }
+
+                this.readCSVFile(file);
+            }
+
+            readCSVFile(file) {
+                const reader = new FileReader();
+                
+                reader.onload = (e) => {
+                    try {
+                        const csvText = e.target.result;
+                        this.parseCSV(csvText, file);
+                    } catch (error) {
+                        this.showError('Error reading file. Please make sure it\'s a valid CSV file.');
+                    }
+                };
+
+                reader.onerror = () => {
+                    this.showError('Error reading file. Please try again.');
+                };
+
+                reader.readAsText(file);
+            }
+
+            parseCSV(csvText, file) {
+                // Split by lines and remove empty lines
+                const lines = csvText.split('\n').filter(line => line.trim());
+                
+                if (lines.length === 0) {
+                    this.showError('The CSV file appears to be empty.');
+                    return;
+                }
+
+                // Parse CSV data - handle both with and without headers
+                let data = [];
+                let startIndex = 0;
+
+                // Check if first line might be a header (contains quotes or typical header words)
+                const firstLine = lines[0].trim();
+                const hasHeader = firstLine.includes('"') || 
+                                 firstLine.toLowerCase().includes('name') || 
+                                 firstLine.toLowerCase().includes('item') ||
+                                 firstLine.toLowerCase().includes('value') ||
+                                 firstLine.toLowerCase().includes('items');
+
+                if (hasHeader && lines.length > 1) {
+                    startIndex = 1;
+                }
+
+                // Extract data from each line (take first column)
+                for (let i = startIndex; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (line) {
+                        // Handle CSV parsing - split by comma but respect quotes
+                        const columns = this.parseCSVLine(line);
+                        if (columns.length > 0 && columns[0].trim()) {
+                            data.push(columns[0].trim());
+                        }
+                    }
+                }
+
+                if (data.length === 0) {
+                    this.showError('No valid data found in the CSV file.');
+                    return;
+                }
+
+                if (data.length < 2) {
+                    this.showError('CSV file must contain at least 2 items for the spinner to work.');
+                    return;
+                }
+
+                if (data.length > 20) {
+                    this.showError('Too many items (max 20 supported for optimal display). Please reduce the number of items.');
+                    return;
+                }
+
+                this.csvData = data;
+                this.showFileInfo(file, data.length);
+                this.createSpinner();
+            }
+
+            parseCSVLine(line) {
+                const result = [];
+                let current = '';
+                let inQuotes = false;
+                
+                for (let i = 0; i < line.length; i++) {
+                    const char = line[i];
+                    
+                    if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === ',' && !inQuotes) {
+                        result.push(current);
+                        current = '';
+                    } else {
+                        current += char;
+                    }
+                }
+                
+                result.push(current);
+                return result;
+            }
+
+            showFileInfo(file, itemCount) {
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileSize').textContent = this.formatFileSize(file.size);
+                document.getElementById('itemCount').textContent = itemCount;
+                document.getElementById('fileInfo').classList.remove('hidden');
+            }
+
+            formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            createSpinner() {
+                const wheel = document.getElementById('spinnerWheel');
+                wheel.innerHTML = ''; // Clear existing segments
+                
+                const segmentAngle = 360 / this.csvData.length;
+                const colors = [
+                    '#ef4444', '#f97316', '#eab308', '#22c55e', 
+                    '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899',
+                    '#f59e0b', '#10b981', '#14b8a6', '#6366f1',
+                    '#84cc16', '#f43f5e', '#06b6d4', '#8b5cf6',
+                    '#ef4444', '#22c55e', '#f97316', '#3b82f6'
+                ];
+
+                this.csvData.forEach((item, index) => {
+                    const segment = document.createElement('div');
+                    segment.className = 'spinner-segment';
+                    segment.style.transform = `rotate(${index * segmentAngle}deg)`;
+                    
+                    const segmentInner = document.createElement('div');
+                    segmentInner.className = 'spinner-segment-inner';
+                    segmentInner.style.backgroundColor = colors[index % colors.length];
+                    segmentInner.style.transform = `rotate(${segmentAngle / 2}deg)`;
+                    
+                    // Truncate long text
+                    const displayText = item.length > 15 ? item.substring(0, 12) + '...' : item;
+                    segmentInner.textContent = displayText;
+                    segmentInner.title = item; // Show full text on hover
+                    
+                    segment.appendChild(segmentInner);
+                    wheel.appendChild(segment);
+                });
+
+                document.getElementById('spinnerSection').classList.remove('hidden');
+            }
+
+            spinWheel() {
+                if (this.isSpinning) return;
+                
+                this.isSpinning = true;
+                const spinButton = document.getElementById('spinButton');
+                spinButton.disabled = true;
+                spinButton.textContent = 'Spinning...';
+                
+                // Hide previous result
+                document.getElementById('resultSection').classList.add('hidden');
+                document.getElementById('resultDisplay').classList.remove('show');
+                
+                // Calculate random rotation
+                const minSpins = 5; // Minimum number of full rotations
+                const maxSpins = 8; // Maximum number of full rotations
+                const spins = minSpins + Math.random() * (maxSpins - minSpins);
+                
+                // Random final position
+                const randomIndex = Math.floor(Math.random() * this.csvData.length);
+                const segmentAngle = 360 / this.csvData.length;
+                const finalAngle = (randomIndex * segmentAngle) + (segmentAngle / 2);
+                
+                // Total rotation (clockwise, but we want counter-clockwise result)
+                const totalRotation = (spins * 360) + (360 - finalAngle);
+                
+                const wheel = document.getElementById('spinnerWheel');
+                wheel.style.setProperty('--final-rotation', `${totalRotation}deg`);
+                wheel.classList.add('spinning');
+                
+                // Show result after animation
+                setTimeout(() => {
+                    this.showResult(this.csvData[randomIndex]);
+                    this.resetSpinButton();
+                    wheel.classList.remove('spinning');
+                    this.isSpinning = false;
+                }, 4000);
+            }
+
+            showResult(selectedItem) {
+                document.getElementById('selectedResult').textContent = selectedItem;
+                document.getElementById('resultSection').classList.remove('hidden');
+                
+                // Trigger animation
+                setTimeout(() => {
+                    document.getElementById('resultDisplay').classList.add('show');
+                }, 100);
+            }
+
+            resetSpinButton() {
+                const spinButton = document.getElementById('spinButton');
+                spinButton.disabled = false;
+                spinButton.textContent = '🎯 SPIN THE WHEEL';
+            }
+
+            resetForNewSpin() {
+                document.getElementById('resultSection').classList.add('hidden');
+                document.getElementById('resultDisplay').classList.remove('show');
+            }
+
+            showError(message) {
+                document.getElementById('errorMessage').textContent = message;
+                document.getElementById('errorDisplay').classList.remove('hidden');
+                document.getElementById('fileInfo').classList.add('hidden');
+                document.getElementById('spinnerSection').classList.add('hidden');
+            }
+
+            hideError() {
+                document.getElementById('errorDisplay').classList.add('hidden');
+            }
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            new CSVSpinner();
+        });
+    </script>
+</body>
+</html>
