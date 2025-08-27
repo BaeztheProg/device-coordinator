@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Alpha Channel Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background for presentation */
+            color: #e2e8f0; /* Light text color */
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center p-8">
+
+    <!-- Slide 1: Title -->
+    <div class="w-full max-w-4xl bg-gray-800 rounded-xl shadow-lg p-10 mb-12">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-white text-center mb-4">The Alpha Channel: A Look at Compositing in Computer Graphics</h1>
+        <p class="text-xl sm:text-2xl font-light text-center text-gray-400 mb-8">A Quick Lesson Plan</p>
+        <p class="text-center text-gray-500">**Demonstration:** *Aladdin* (1992) - Cave of Wonders Scene</p>
+    </div>
+
+    <!-- Slide 2: What is Compositing? -->
+    <div class="w-full max-w-4xl bg-gray-800 rounded-xl shadow-lg p-10 mb-12">
+        <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6">What is Compositing?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-2xl font-semibold mb-2 text-cyan-400">Combining Images into One</h3>
+                <p class="text-lg text-gray-300">The art and science of combining visual elements from separate sources into a single, cohesive image.</p>
+                <p class="text-lg text-gray-300">The goal? To create a single, unified scene.</p>
+            </div>
+            <div>
+                <h3 class="text-2xl font-semibold mb-2 text-cyan-400">Early Examples: Before Computers</h3>
+                <ul class="list-disc list-inside text-lg text-gray-300 space-y-2">
+                    <li>**Georges Méliès** (late 1800s): Used <span class="font-bold text-teal-300">multiple exposures</span> to create special effects.</li>
+                    <li>**Blue/Green Screen (Chroma Key):** A powerful optical technique where a subject is filmed in front of a solid color background, which is then replaced with another image.</li>
+                </ul>
+                <img src="https://t4.ftcdn.net/jpg/04/81/15/80/360_F_481158013_qO3Lp3K4qg6p9s652P3oY7sM1m2q5xX6.jpg" alt="Blue screen visual effects stage" class="mt-4 rounded-lg shadow-md w-full h-auto object-cover">
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: The Digital Revolution -->
+    <div class="w-full max-w-4xl bg-gray-800 rounded-xl shadow-lg p-10 mb-12">
+        <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6">The Digital Revolution</h2>
+        <div class="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
+            <div class="w-full md:w-1/2">
+                <img src="https://placehold.co/600x400/1e293b/a1a1aa?text=Digital+Compositing" alt="Concept of digital compositing" class="rounded-lg shadow-md w-full">
+            </div>
+            <div class="w-full md:w-1/2">
+                <h3 class="text-2xl font-semibold mb-2 text-cyan-400">The Problem with Old Techniques</h3>
+                <ul class="list-disc list-inside text-lg text-gray-300 space-y-2">
+                    <li>**"Halos"**: The edges of objects often had a visible fringe or glow.</li>
+                    <li>**No Partial Transparency**: It was difficult to convincingly composite transparent or semi-transparent objects like smoke or water.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: The Alpha Channel -->
+    <div class="w-full max-w-4xl bg-gray-800 rounded-xl shadow-lg p-10 mb-12">
+        <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6">The Alpha Channel</h2>
+        <div class="flex flex-col md:flex-row-reverse items-center space-y-6 md:space-y-0 md:space-x-8">
+            <div class="w-full md:w-1/2">
+                <img src="https://placehold.co/600x400/1e293b/a1a1aa?text=RGB%2BAlpha+Channels" alt="Diagram of RGB and Alpha channels" class="rounded-lg shadow-md w-full">
+            </div>
+            <div class="w-full md:w-1/2">
+                <h3 class="text-2xl font-semibold mb-2 text-cyan-400">The Solution: A New Channel</h3>
+                <p class="text-lg text-gray-300 mb-4">Developed by computer scientists <span class="font-bold text-teal-300">Edwin "Ed" Catmull</span> and <span class="font-bold text-teal-300">Alvy Ray Smith</span> in the late 1970s. They added a fourth channel to a digital image, alongside the Red, Green, and Blue (RGB) color channels.</p>
+                <h3 class="text-2xl font-semibold mb-2 text-cyan-400">How it Works</h3>
+                <ul class="list-disc list-inside text-lg text-gray-300 space-y-2">
+                    <li>The alpha channel ($\alpha$) stores **opacity** information for each pixel.</li>
+                    <li>$\alpha = 0$: Completely transparent.</li>
+                    <li>$\alpha = 1$: Completely opaque.</li>
+                    <li>$0 < \alpha < 1$: Partially transparent.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: The Magic Carpet in Aladdin -->
+    <div class="w-full max-w-4xl bg-gray-800 rounded-xl shadow-lg p-10 mb-12">
+        <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6 text-center">The Magic Carpet in *Aladdin*</h2>
+        <h3 class="text-2xl font-semibold mb-4 text-cyan-400 text-center">A Groundbreaking Use</h3>
+        <p class="text-lg text-gray-300 text-center mb-6">Disney's *Aladdin* (1992) was a landmark film because it seamlessly blended traditional 2D animation with 3D computer graphics. The magic carpet was a 3D character created by computer animators and rendered with an alpha channel that defined its shape.</p>
+        <div class="flex justify-center">
+            <img src="http://googleusercontent.com/image_generation_content/0" alt="The magic carpet from Aladdin flying" class="rounded-lg shadow-2xl max-w-full h-auto">
+        </div>
+    </div>
+
+    <!-- Slide 6: Conclusion -->
+    <div class="w-full max-w-4xl bg-gray-800 rounded-xl shadow-lg p-10 mb-12">
+        <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6">Conclusion</h2>
+        <h3 class="text-2xl font-semibold mb-4 text-cyan-400">Why It Matters</h3>
+        <ul class="list-disc list-inside text-lg text-gray-300 space-y-2">
+            <li>The alpha channel was a crucial invention that revolutionized visual effects.</li>
+            <li>It gave artists precise, pixel-perfect control over compositing.</li>
+            <li>It made it possible to seamlessly combine different types of imagery (like 3D objects and 2D backgrounds).</li>
+            <li>The magic carpet was just the beginning!</li>
+        </ul>
+    </div>
+
+</body>
+</html>
